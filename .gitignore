@@ -93,3 +93,8 @@ pip-selfcheck.json
 .idea/vcs.xml
 service_cash/static/
 service_cash/templates/
+/service_cash.egg-info/
+/.coveragerc
+.coveragerc
+.idea/
+service_cash.egg-info/

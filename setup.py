@@ -13,6 +13,10 @@ requires = [
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
     'waitress',
+    'colander',
+    'cornice',
+    'sqlalchemy',
+    'psycopg2'
     ]
 
 tests_require = [
