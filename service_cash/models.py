@@ -13,7 +13,7 @@ metadata = Base.metadata
 class Account(Base):
     __tablename__ = 'account'
 
-    idaccount = Column(Integer, primary_key=True)
+    idaccount = Column(Integer, primary_key=True, autoincrement=True)
     idcurrency = Column(ForeignKey(u'currency.idcurrency', match=u'FULL'))
     actualbill = Column(Numeric)
     overdraft = Column(Boolean)
