@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.0-beta" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<database name="new_database">
+</database>
+
+<tag name="Классификатор">
+	<style id="table-body" colors="#fcfcfc,#fcfcfc,#808080"/>
+	<style id="table-ext-body" colors="#fcfcfc,#fcfcfc,#808080"/>
+	<style id="table-name" colors="#000000"/>
+	<style id="table-schema-name" colors="#000000"/>
+	<style id="table-title" colors="#00aa00,#00aa00,#20486f"/>
+</tag>
+<schema name="public" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<table name="account">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="1161" y="594"/>
+	<column name="idaccount" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="idcurrency">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="overdraft">
+		<type name="bool" length="0"/>
+	</column>
+	<column name="actualbill">
+		<type name="numeric" length="0"/>
+	</column>
+	<constraint name="pk_account" type="pk-constr" table="public.account">
+		<columns names="idaccount" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="currency">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<tag name="Классификатор"/>
+	<position x="1159" y="760"/>
+	<column name="idcurrency" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="fname">
+		<type name="varchar" length="25"/>
+	</column>
+	<column name="sname">
+		<type name="varchar" length="10"/>
+	</column>
+	<constraint name="pk_currency" type="pk-constr" table="public.currency">
+		<columns names="idcurrency" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="typeparticipant">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<tag name="Классификатор"/>
+	<position x="673" y="393"/>
+	<column name="idtypeparticipant" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="sname">
+		<type name="varchar" length="15"/>
+	</column>
+	<constraint name="pk_typeparticipant" type="pk-constr" table="public.typeparticipant">
+		<columns names="idtypeparticipant" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="storage">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="632" y="577"/>
+	<column name="idtypeparticipant" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="idaccount" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="idoperation" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="historybill">
+		<type name="numeric" length="0"/>
+	</column>
+	<constraint name="pk_storage" type="pk-constr" table="public.storage">
+		<columns names="idtypeparticipant,idaccount,idoperation" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="operation">
+	<schema name="public"/>
+	<role name="postgres"/>
+	<position x="634" y="800"/>
+	<column name="idoperation" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="osumm">
+		<type name="numeric" length="0"/>
+	</column>
+	<column name="otime">
+		<type name="timestamp" length="0"/>
+	</column>
+	<constraint name="pk_operation" type="pk-constr" table="public.operation">
+		<columns names="idoperation" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk_account_currency" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.currency" table="public.account">
+	<columns names="idcurrency" ref-type="src-columns"/>
+	<columns names="idcurrency" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_storage_operation" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.operation" table="public.storage">
+	<columns names="idoperation" ref-type="src-columns"/>
+	<columns names="idoperation" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_storage_typeparticipant" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.typeparticipant" table="public.storage">
+	<columns names="idtypeparticipant" ref-type="src-columns"/>
+	<columns names="idtypeparticipant" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_storage_account" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="public.account" table="public.storage">
+	<columns names="idaccount" ref-type="src-columns"/>
+	<columns names="idaccount" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_account_currency" type="relfk"
+	 src-table="public.account"
+	 dst-table="public.currency"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_storage_deltasumm" type="relfk"
+	 src-table="public.storage"
+	 dst-table="public.operation"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_storage_typeparticipant" type="relfk"
+	 src-table="public.storage"
+	 dst-table="public.typeparticipant"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_storage_account" type="relfk"
+	 src-table="public.storage"
+	 dst-table="public.account"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
