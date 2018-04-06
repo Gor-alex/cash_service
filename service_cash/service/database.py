@@ -10,10 +10,8 @@ Base = declarative_base()
 def session_returner(request, connect_line):
     engine = create_engine(connect_line)
     Base.metadata.bind = engine
-    # Configure session
-    Session = orm.sessionmaker(bind=engine,)
-    # intanse Sesssion
-    session = Session()
+    # Configure and intense session
+    session = orm.sessionmaker(bind=engine,)()
 
     def cleanup(request):
         if request.exception is not None:
