@@ -53,6 +53,14 @@ class AccountService(object):
 
     @staticmethod
     def url_validate(request, **kwargs):
+        """
+            :param request: Request object
+                Global request object
+            :param kwargs: dict
+                param from request
+            :return: None
+                Function update dict(request.validated) with valid values
+        """
         if kwargs['request_method'] == 'GET':
             # Schema initialization
             schema = kwargs['schema']()

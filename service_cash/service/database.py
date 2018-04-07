@@ -8,6 +8,14 @@ Base = declarative_base()
 
 
 def session_returner(request, connect_line):
+    """
+    :param request: Request
+        Global request object
+    :param connect_line: string
+        url with db and db host information
+    :return: Session
+        Session instance
+    """
     engine = create_engine(connect_line)
     Base.metadata.bind = engine
     # Configure and intense session
@@ -24,6 +32,11 @@ def session_returner(request, connect_line):
 
 
 def session_maker(request):
+    """
+    :param request: Request
+        Global request object
+    :return: Session instance
+    """
     settings = request.registry.settings
     connect_line = 'postgresql://{user}:{password}@{postgre_server}:{bd_port}/{bd_name}'.format(
         user=settings['bd_user'],

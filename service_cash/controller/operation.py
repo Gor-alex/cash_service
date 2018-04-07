@@ -4,7 +4,7 @@ import decimal
 from datetime import datetime
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
-from service_cash.validators.operations import Transfer
+from service_cash.validators.operation import Transfer
 from service_cash.service.errors import gen_error_view
 from service_cash import models
 
@@ -103,7 +103,6 @@ class OperationService(object):
     def overdraft(self, db_donor):
         return (self.request.validated['delta'] > float(db_donor.actualbill)) & (db_donor.overdraft is True)
 
-
     @staticmethod
     def find_(objects_list, id_):
         """
@@ -120,24 +119,3 @@ class OperationService(object):
             if _db_object.idaccount == id_:
                 objects_list.remove(_db_object)
                 return _db_object, objects_list
-
-    @staticmethod
-    def url_validate(request, **kwargs):
-        """
-
-        :param request: Request object
-            Global request object
-        :param kwargs: dict
-            param from request
-        :return: None
-            Function update dict(request.validated) with valid values
-        """
-        if kwargs['request_method'] == 'GET':
-            # Schema initialization
-            schema = kwargs['schema']()
-            # Get values
-            try:
-                request.validated.update(schema.deserialize(request.GET))
-            except Exception as validation_error:
-                request.validated['id'] = None
-                request.errors.append(str(validation_error))
