@@ -1,9 +1,9 @@
 # coding=utf-8
 # -*- coding: utf-8 -*-
 
+from service_cash.service.errors import gen_error_view
 from cornice.resource import resource, view
 from cornice.validators import colander_body_validator
-from pyramid.httpexceptions import HTTPInternalServerError
 from service_cash.validators.account import NewAccount, Url
 from service_cash import models
 
@@ -20,7 +20,7 @@ class AccountService(object):
                 .filter(models.Account.idaccount == self.request.validated['id'])\
                 .join(models.Account.currency).one()
         except Exception as error:
-            return self.gen_error_view(error)
+            return gen_error_view(error)
 
         return {
             u'actualbill': str(account.actualbill),
@@ -49,15 +49,7 @@ class AccountService(object):
             return new_account.idaccount
 
         except Exception as error:
-            return self.gen_error_view(error)
-
-    @staticmethod
-    def gen_error_view(o_error):
-        # Create error page
-        exc_view = HTTPInternalServerError()
-        # Filling error field
-        exc_view.explanation = str(o_error)
-        return exc_view
+            return gen_error_view(error)
 
     @staticmethod
     def url_validate(request, **kwargs):
