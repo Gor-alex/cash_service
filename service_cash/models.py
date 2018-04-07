@@ -32,7 +32,7 @@ class Currency(Base):
 class Operation(Base):
     __tablename__ = 'operation'
 
-    idoperation = Column(Integer, primary_key=True)
+    idoperation = Column(Integer, primary_key=True, autoincrement=True)
     osumm = Column(Numeric)
     otime = Column(DateTime)
 
