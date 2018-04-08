@@ -111,7 +111,7 @@ class OperationService(object):
             list of db objects
         :param id_: int
             wanted id account
-        :return: model.Account, model.Account...]
+        :return: model.Account, [model.Account...]
             Account object
 
         """
