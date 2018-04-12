@@ -17,19 +17,19 @@ class OperationService(object):
         currency = dict()
         currency[u'EUR'] = {
             u'EUR': 1,
-            u'RUB': float(request.registry.settings['EUR_to_RUB']),
-            u'USD': float(request.registry.settings['EUR_to_USD'])
+            u'RUB': decimal.Decimal(request.registry.settings['EUR_to_RUB']),
+            u'USD': decimal.Decimal(request.registry.settings['EUR_to_USD'])
         }
         currency[u'USD'] = {
             u'USD': 1,
-            u'RUB': float(request.registry.settings['USD_to_RUB']),
-            u'EUR': 1 / float(currency[u'EUR'][u'USD'])
+            u'RUB': decimal.Decimal(request.registry.settings['USD_to_RUB']),
+            u'EUR': 1 / decimal.Decimal(currency[u'EUR'][u'USD'])
         }
 
         currency[u'RUB'] = {
             u'RUB': 1,
-            u'EUR': 1 / float(currency[u'EUR'][u'RUB']),
-            u'USD': float(currency[u'EUR'][u'USD'])/float(currency[u'EUR'][u'RUB'])
+            u'EUR': 1 / decimal.Decimal(currency[u'EUR'][u'RUB']),
+            u'USD': decimal.Decimal(currency[u'EUR'][u'USD'])/decimal.Decimal(currency[u'EUR'][u'RUB'])
         }
         self.currency = currency
 
@@ -98,10 +98,10 @@ class OperationService(object):
             return gen_error_view(error.message)
 
     def enough_money(self, db_donor):
-        return self.request.validated['delta'] < float(db_donor.actualbill)
+        return self.request.validated['delta'] < db_donor.actualbill
 
     def overdraft(self, db_donor):
-        return (self.request.validated['delta'] > float(db_donor.actualbill)) & (db_donor.overdraft is True)
+        return (self.request.validated['delta'] > db_donor.actualbill) & (db_donor.overdraft is True)
 
     @staticmethod
     def find_(objects_list, id_):

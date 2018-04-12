@@ -21,7 +21,7 @@ class Transfer(colander.MappingSchema):
     )
     delta = colander.SchemaNode(
         name='delta',
-        typ=colander.Float(),
+        typ=colander.Decimal(),
         validator=colander.Range(min=0),
         missing=colander.required,
         description=u'Сумма перевода'
